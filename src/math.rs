@@ -25,7 +25,7 @@ pub struct Five;
 #[derive(Clone, Copy, Debug)]
 pub struct Invalid;
 
-pub trait Equals<T = Self> {
+pub trait EqualsOrZero<T = Self> {
     type SelfType;
 }
 // impl<T> Equals<T> for T {}

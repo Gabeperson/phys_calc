@@ -149,36 +149,36 @@ pub struct Yard;
 #[unit_impl(LengthUnit)]
 pub struct Mile;
 
-impl<T: TimeUnit, L: LengthUnit> DerivedToUnit
-    for Derived<LengthPower<One, L>, TimePower<Zero, T>>
-{
-    type Output = Length<L>;
-    type LU = L;
-    type TU = T;
+// impl<T: TimeUnit, L: LengthUnit> DerivedToUnit
+//     for Derived<LengthPower<One, L>, TimePower<Zero, T>>
+// {
+//     type Output = Length<L>;
+//     type LU = L;
+//     type TU = T;
 
-    fn to_unit(self) -> Self::Output {
-        Length {
-            inner: self.inner,
-            types: PhantomData,
-        }
-    }
-}
+//     fn to_unit(self) -> Self::Output {
+//         Length {
+//             inner: self.inner,
+//             types: PhantomData,
+//         }
+//     }
+// }
 
-impl<L: LengthUnit> UnitToDerived for Length<L> {
-    type LengthExp = One;
-    type TimeExp = Zero;
+// impl<L: LengthUnit> UnitToDerived for Length<L> {
+//     type LengthExp = One;
+//     type TimeExp = Zero;
 
-    type LengthUnit = L;
-    type TimeUnit = None;
-    fn to_derived(
-        self,
-    ) -> Derived<
-        LengthPower<Self::LengthExp, Self::LengthUnit>,
-        TimePower<Self::TimeExp, Self::TimeUnit>,
-    > {
-        Derived {
-            inner: self.inner,
-            types: PhantomData,
-        }
-    }
-}
+//     type LengthUnit = L;
+//     type TimeUnit = None;
+//     fn to_derived(
+//         self,
+//     ) -> Derived<
+//         LengthPower<Self::LengthExp, Self::LengthUnit>,
+//         TimePower<Self::TimeExp, Self::TimeUnit>,
+//     > {
+//         Derived {
+//             inner: self.inner,
+//             types: PhantomData,
+//         }
+//     }
+// }

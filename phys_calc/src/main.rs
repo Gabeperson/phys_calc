@@ -1,3 +1,4 @@
+/*
 use std::marker::PhantomData;
 
 use phys_calc::base::length::{Kilometer, Length, Meter};
@@ -17,3 +18,5 @@ fn function(x: f32, y: f32) -> f32 {
 fn function2(x: f32, y: f32) -> f32 {
     std::hint::black_box(x) + std::hint::black_box(y)
 }
+*/
+fn main() {}

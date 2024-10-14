@@ -13,6 +13,7 @@ pub trait TempUnit: Unit {
     fn to_base(s: Temperature<Self>) -> Temperature<Kelvin>;
     fn from_base(s: Temperature<Kelvin>) -> Temperature<Self>;
     fn unit() -> &'static str;
+    fn mult() -> number;
 }
 
 impl_math!(Temperature<M: TempUnit>);
@@ -63,6 +64,9 @@ impl TempUnit for Kelvin {
     fn unit() -> &'static str {
         "K"
     }
+    fn mult() -> number {
+        1.
+    }
 }
 #[derive(Copy, Clone, Debug)]
 pub struct Celsius;
@@ -88,6 +92,10 @@ impl TempUnit for Celsius {
     fn unit() -> &'static str {
         "°C"
     }
+
+    fn mult() -> number {
+        1.
+    }
 }
 #[derive(Copy, Clone, Debug)]
 pub struct Fahrenheit;
@@ -111,6 +119,9 @@ impl TempUnit for Fahrenheit {
 
     fn unit() -> &'static str {
         "°F"
+    }
+    fn mult() -> number {
+        1.8
     }
 }
 

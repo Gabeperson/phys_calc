@@ -123,8 +123,6 @@ pub trait UnitToDerived {
 
 pub trait DerivedToUnit {
     type Output;
-    type LU: LengthUnit;
-    type TU: TimeUnit;
     fn to_unit(self) -> Self::Output;
 }
 

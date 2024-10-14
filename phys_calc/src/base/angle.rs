@@ -112,31 +112,80 @@ pub struct Radian;
 #[unit_impl(AngleUnit)]
 pub struct Gradian;
 
-// impl<T: TimeUnit, L: LengthUnit> DerivedToUnit
-//     for Derived<LengthPower<Zero, L>, TimePower<One, T>>
-// {
-//     type Output = Time<T>;
-//     type LU = L;
-//     type TU = T;
+impl<
+        T: TimeUnit,
+        L: LengthUnit,
+        TMP: TempUnit,
+        M: MassUnit,
+        C: CurrentUnit,
+        LI: LuminousIntensityUnit,
+        Q: QuantityUnit,
+        A: AngleUnit,
+        S: SolidAngleUnit,
+        D: DigitalInformationUnit,
+    > DerivedToUnit
+    for Derived<
+        LengthPower<Zero, L>,
+        TimePower<Zero, T>,
+        TemperaturePower<Zero, TMP>,
+        MassPower<Zero, M>,
+        CurrentPower<Zero, C>,
+        LuminousIntensityPower<Zero, LI>,
+        QuantityPower<Zero, Q>,
+        AnglePower<One, A>,
+        SolidAnglePower<Zero, S>,
+        DigitalInformationPower<Zero, D>,
+    >
+{
+    type Output = Angle<A>;
 
-//     fn to_unit(self) -> Self::Output {
-//         Time {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
+    fn to_unit(self) -> Self::Output {
+        Angle {
+            inner: self.inner,
+            types: PhantomData,
+        }
+    }
+}
 
-// impl<T: TimeUnit> UnitToDerived for Time<T> {
-//     type LP = Zero;
-//     type TP = One;
+impl<A: AngleUnit> UnitToDerived for Angle<A> {
+    type LengthExp = Zero;
+    type TimeExp = Zero;
+    type TempExp = Zero;
+    type MassExp = Zero;
+    type CurrentExp = Zero;
+    type LuminousIntensityExp = Zero;
+    type QuantityExp = Zero;
+    type AngleExp = One;
+    type SolidAngleExp = Zero;
+    type DigitalInformationExp = Zero;
 
-//     type LU = None;
-//     type TU = T;
-//     fn to_derived(self) -> Derived<LengthPower<Self::LP, Self::LU>, TimePower<Self::TP, Self::TU>> {
-//         Derived {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
+    type LengthUnit = None;
+    type TimeUnit = None;
+    type TempUnit = None;
+    type MassUnit = None;
+    type CurrentUnit = None;
+    type LuminousIntensityUnit = None;
+    type QuantityUnit = None;
+    type AngleUnit = A;
+    type SolidAngleUnit = None;
+    type DigitalInformationUnit = None;
+    fn to_derived(
+        self,
+    ) -> Derived<
+        LengthPower<Self::LengthExp, Self::LengthUnit>,
+        TimePower<Self::TimeExp, Self::TimeUnit>,
+        TemperaturePower<Self::TempExp, Self::TempUnit>,
+        MassPower<Self::MassExp, Self::MassUnit>,
+        CurrentPower<Self::CurrentExp, Self::CurrentUnit>,
+        LuminousIntensityPower<Self::LuminousIntensityExp, Self::LuminousIntensityUnit>,
+        QuantityPower<Self::QuantityExp, Self::QuantityUnit>,
+        AnglePower<Self::AngleExp, Self::AngleUnit>,
+        SolidAnglePower<Self::SolidAngleExp, Self::SolidAngleUnit>,
+        DigitalInformationPower<Self::DigitalInformationExp, Self::DigitalInformationUnit>,
+    > {
+        Derived {
+            inner: self.inner,
+            types: PhantomData,
+        }
+    }
+}

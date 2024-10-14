@@ -24,7 +24,10 @@ use super::unit_traits::*;
 use crate::math::*;
 use crate::math_helpers::*;
 use crate::math_impl::impl_math;
+use crate::specialization::False;
+use crate::specialization::Specialized;
 use crate::unit::None;
+use crate::unspecialize;
 use crate::Unit;
 
 pub trait AngleUnit: Unit {
@@ -112,6 +115,8 @@ pub struct Radian;
 #[unit_impl(AngleUnit)]
 pub struct Gradian;
 
+unspecialize!(Angle<A: AngleUnit>);
+
 impl<
         T: TimeUnit,
         L: LengthUnit,
@@ -136,6 +141,8 @@ impl<
         SolidAnglePower<Zero, S>,
         DigitalInformationPower<Zero, D>,
     >
+where
+    Angle<A>: Specialized<Bool = False>,
 {
     type Output = Angle<A>;
 

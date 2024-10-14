@@ -33,23 +33,6 @@ pub trait EqualsOrZero<T = Self> {
 }
 // impl<T> Equals<T> for T {}
 
-mod private {
-    pub trait Sealed {}
-}
-pub trait Specialized {
-    type Bool: Boolean;
-}
-use private::Sealed;
-pub trait Boolean: Sealed {}
-#[derive(Debug, Clone, Copy)]
-struct True;
-#[derive(Debug, Clone, Copy)]
-struct False;
-impl Sealed for True {}
-impl Boolean for True {}
-impl Sealed for False {}
-impl Boolean for False {}
-
 pub trait Number:
     Copy
     + Add<NegFive>

@@ -15,11 +15,12 @@ impl Boolean for True {}
 impl Sealed for False {}
 impl Boolean for False {}
 
+#[allow(clippy::crate_in_macro_def)]
 #[macro_export]
 macro_rules! unspecialize {
     ($ident:ident<$($generic:ident:$trait:ident),+>) => {
-        impl<$($generic: $trait),+> $crate::specialization::Specialized for $ident<$($generic),+> {
-            type Bool = False;
+        impl<$($generic: $trait),+> crate::specialization::Specialized for $ident<$($generic),+> {
+            type Bool = crate::specialization::False;
         }
     };
 }

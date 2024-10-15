@@ -2,6 +2,7 @@ use std::fmt::Display;
 use std::fmt::LowerExp;
 use std::marker::PhantomData;
 
+use phys_calc_macros::impl_derived_conversions;
 use phys_calc_macros::Unit;
 
 use super::unit_traits::*;
@@ -9,6 +10,7 @@ use crate::math::*;
 use crate::math_helpers::*;
 use crate::math_impl::impl_math;
 use crate::unit::None;
+use crate::unspecialize;
 use crate::Unit;
 
 pub trait QuantityUnit: Unit {
@@ -72,31 +74,5 @@ pub struct Single;
 #[unit_impl(QuantityUnit)]
 pub struct Mole;
 
-// impl<T: TimeUnit, L: LengthUnit> DerivedToUnit
-//     for Derived<LengthPower<Zero, L>, TimePower<One, T>>
-// {
-//     type Output = Time<T>;
-//     type LU = L;
-//     type TU = T;
-
-//     fn to_unit(self) -> Self::Output {
-//         Time {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
-
-// impl<T: TimeUnit> UnitToDerived for Time<T> {
-//     type LP = Zero;
-//     type TP = One;
-
-//     type LU = None;
-//     type TU = T;
-//     fn to_derived(self) -> Derived<LengthPower<Self::LP, Self::LU>, TimePower<Self::TP, Self::TU>> {
-//         Derived {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
+unspecialize!(Quantity<Q: QuantityUnit>);
+impl_derived_conversions!(Quantity<Q: QuantityUnit>, Quantity: One, Q);

@@ -2,6 +2,7 @@ use std::fmt::Display;
 use std::fmt::LowerExp;
 use std::marker::PhantomData;
 
+use phys_calc_macros::impl_derived_conversions;
 use phys_calc_macros::Unit;
 
 use super::unit_traits::*;
@@ -9,6 +10,7 @@ use crate::math::*;
 use crate::math_helpers::*;
 use crate::math_impl::impl_math;
 use crate::unit::None;
+use crate::unspecialize;
 use crate::Unit;
 
 trait Pi {
@@ -100,36 +102,5 @@ pub struct SquareDegree;
 #[unit_impl(SolidAngleUnit)]
 pub struct Steradian;
 
-// impl<T: TimeUnit, L: SolidAngleUnit> DerivedToUnit
-//     for Derived<LengthPower<One, L>, TimePower<Zero, T>>
-// {
-//     type Output = SolidAngle<L>;
-//     type LU = L;
-//     type TU = T;
-
-//     fn to_unit(self) -> Self::Output {
-//         SolidAngle {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
-
-// impl<L: SolidAngleUnit> UnitToDerived for SolidAngle<L> {
-//     type LengthExp = One;
-//     type TimeExp = Zero;
-
-//     type LengthUnit = L;
-//     type TimeUnit = None;
-//     fn to_derived(
-//         self,
-//     ) -> Derived<
-//         LengthPower<Self::LengthExp, Self::LengthUnit>,
-//         TimePower<Self::TimeExp, Self::TimeUnit>,
-//     > {
-//         Derived {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
+unspecialize!(SolidAngle<S: SolidAngleUnit>);
+impl_derived_conversions!(SolidAngle<S: SolidAngleUnit>, SolidAngle: One, S);

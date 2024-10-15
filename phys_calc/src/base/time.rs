@@ -2,6 +2,7 @@ use std::fmt::Display;
 use std::fmt::LowerExp;
 use std::marker::PhantomData;
 
+use phys_calc_macros::impl_derived_conversions;
 use phys_calc_macros::Unit;
 
 use super::unit_traits::*;
@@ -9,6 +10,7 @@ use crate::math::*;
 use crate::math_helpers::*;
 use crate::math_impl::impl_math;
 use crate::unit::None;
+use crate::unspecialize;
 use crate::Unit;
 
 pub trait TimeUnit: Unit {
@@ -126,36 +128,5 @@ pub struct Year;
 #[unit_impl(TimeUnit)]
 pub struct AgeOfUniverse;
 
-// impl<T: TimeUnit, L: LengthUnit> DerivedToUnit
-//     for Derived<LengthPower<Zero, L>, TimePower<One, T>>
-// {
-//     type Output = Time<T>;
-//     type LU = L;
-//     type TU = T;
-
-//     fn to_unit(self) -> Self::Output {
-//         Time {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
-
-// impl<T: TimeUnit> UnitToDerived for Time<T> {
-//     type LengthExp = Zero;
-//     type TimeExp = One;
-
-//     type LengthUnit = None;
-//     type TimeUnit = T;
-//     fn to_derived(
-//         self,
-//     ) -> Derived<
-//         LengthPower<Self::LengthExp, Self::LengthUnit>,
-//         TimePower<Self::TimeExp, Self::TimeUnit>,
-//     > {
-//         Derived {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
+unspecialize!(Time<T: TimeUnit>);
+impl_derived_conversions!(Time<T: TimeUnit>, Time: One, T);

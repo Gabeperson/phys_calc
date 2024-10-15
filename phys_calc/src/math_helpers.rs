@@ -22,9 +22,9 @@ pub trait LengthTrait {}
 pub struct LengthPower<L: Number, U: LengthUnit>(PhantomData<(L, U)>);
 impl<L: Number, U: LengthUnit> LengthTrait for LengthPower<L, U> {}
 
-pub trait TemperatureTrait {}
-pub struct TemperaturePower<TMP: Number, U: TempUnit>(PhantomData<(TMP, U)>);
-impl<TMP: Number, U: TempUnit> TemperatureTrait for TemperaturePower<TMP, U> {}
+pub trait TempTrait {}
+pub struct TempPower<TMP: Number, U: TempUnit>(PhantomData<(TMP, U)>);
+impl<TMP: Number, U: TempUnit> TempTrait for TempPower<TMP, U> {}
 
 pub trait MassTrait {}
 pub struct MassPower<M: Number, U: MassUnit>(PhantomData<(M, U)>);
@@ -63,7 +63,7 @@ impl<D: Number, U: DigitalInformationUnit> DigitalInformationTrait
 pub struct Derived<
     L: LengthTrait,
     T: TimeTrait,
-    TMP: TemperatureTrait,
+    TMP: TempTrait,
     M: MassTrait,
     C: CurrentTrait,
     LI: LuminousIntensityTrait,
@@ -110,7 +110,7 @@ pub trait UnitToDerived {
     ) -> Derived<
         LengthPower<Self::LengthExp, Self::LengthUnit>,
         TimePower<Self::TimeExp, Self::TimeUnit>,
-        TemperaturePower<Self::TempExp, Self::TempUnit>,
+        TempPower<Self::TempExp, Self::TempUnit>,
         MassPower<Self::MassExp, Self::MassUnit>,
         CurrentPower<Self::CurrentExp, Self::CurrentUnit>,
         LuminousIntensityPower<Self::LuminousIntensityExp, Self::LuminousIntensityUnit>,
@@ -187,7 +187,7 @@ where
             <T::TimeExp as Add<U::TimeExp>>::Output,
             <T::TimeUnit as EqualsOrZero<U::TimeUnit>>::SelfType,
         >,
-        TemperaturePower<
+        TempPower<
             <T::TempExp as Add<U::TempExp>>::Output,
             <T::TempUnit as EqualsOrZero<U::TempUnit>>::SelfType,
         >,
@@ -230,7 +230,7 @@ where
             <T::TimeExp as Add<U::TimeExp>>::Output,
             <T::TimeUnit as EqualsOrZero<U::TimeUnit>>::SelfType,
         >,
-        TemperaturePower<
+        TempPower<
             <T::TempExp as Add<U::TempExp>>::Output,
             <T::TempUnit as EqualsOrZero<U::TempUnit>>::SelfType,
         >,
@@ -341,7 +341,7 @@ where
             <T::TimeExp as Add<<U::TimeExp as Number>::Neg>>::Output,
             <T::TimeUnit as EqualsOrZero<U::TimeUnit>>::SelfType,
         >,
-        TemperaturePower<
+        TempPower<
             <T::TempExp as Add<<U::TempExp as Number>::Neg>>::Output,
             <T::TempUnit as EqualsOrZero<U::TempUnit>>::SelfType,
         >,
@@ -384,7 +384,7 @@ where
             <T::TimeExp as Add<<U::TimeExp as Number>::Neg>>::Output,
             <T::TimeUnit as EqualsOrZero<U::TimeUnit>>::SelfType,
         >,
-        TemperaturePower<
+        TempPower<
             <T::TempExp as Add<<U::TempExp as Number>::Neg>>::Output,
             <T::TempUnit as EqualsOrZero<U::TempUnit>>::SelfType,
         >,

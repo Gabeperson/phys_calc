@@ -2,6 +2,7 @@ use std::fmt::Display;
 use std::fmt::LowerExp;
 use std::marker::PhantomData;
 
+use phys_calc_macros::impl_derived_conversions;
 use phys_calc_macros::Unit;
 
 use super::unit_traits::*;
@@ -9,6 +10,7 @@ use crate::math::*;
 use crate::math_helpers::*;
 use crate::math_impl::impl_math;
 use crate::unit::None;
+use crate::unspecialize;
 use crate::Unit;
 
 pub trait LengthUnit: Unit {
@@ -149,36 +151,5 @@ pub struct Yard;
 #[unit_impl(LengthUnit)]
 pub struct Mile;
 
-// impl<T: TimeUnit, L: LengthUnit> DerivedToUnit
-//     for Derived<LengthPower<One, L>, TimePower<Zero, T>>
-// {
-//     type Output = Length<L>;
-//     type LU = L;
-//     type TU = T;
-
-//     fn to_unit(self) -> Self::Output {
-//         Length {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
-
-// impl<L: LengthUnit> UnitToDerived for Length<L> {
-//     type LengthExp = One;
-//     type TimeExp = Zero;
-
-//     type LengthUnit = L;
-//     type TimeUnit = None;
-//     fn to_derived(
-//         self,
-//     ) -> Derived<
-//         LengthPower<Self::LengthExp, Self::LengthUnit>,
-//         TimePower<Self::TimeExp, Self::TimeUnit>,
-//     > {
-//         Derived {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
+unspecialize!(Length<L: LengthUnit>);
+impl_derived_conversions!(Length<L: LengthUnit>, Length: One, L);

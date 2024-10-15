@@ -2,6 +2,7 @@ use std::fmt::Display;
 use std::fmt::LowerExp;
 use std::marker::PhantomData;
 
+use phys_calc_macros::impl_derived_conversions;
 use phys_calc_macros::Unit;
 
 use super::unit_traits::*;
@@ -9,6 +10,7 @@ use crate::math::*;
 use crate::math_helpers::*;
 use crate::math_impl::impl_math;
 use crate::unit::None;
+use crate::unspecialize;
 use crate::Unit;
 
 pub trait DigitalInformationUnit: Unit {
@@ -215,31 +217,5 @@ pub struct Exabyte;
 #[unit_impl(DigitalInformationUnit)]
 pub struct Exbibyte;
 
-// impl<T: TimeUnit, L: DigitalInformationUnit> DerivedToUnit
-//     for Derived<LengthPower<One, L>, TimePower<Zero, T>>
-// {
-//     type Output = DigitalInformation<L>;
-//     type LU = L;
-//     type TU = T;
-
-//     fn to_unit(self) -> Self::Output {
-//         DigitalInformation {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
-
-// impl<L: DigitalInformationUnit> UnitToDerived for DigitalInformation<L> {
-//     type LP = One;
-//     type TP = Zero;
-
-//     type LU = L;
-//     type TU = None;
-//     fn to_derived(self) -> Derived<LengthPower<Self::LP, Self::LU>, TimePower<Self::TP, Self::TU>> {
-//         Derived {
-//             inner: self.inner,
-//             types: PhantomData,
-//         }
-//     }
-// }
+unspecialize!(DigitalInformation<D: DigitalInformationUnit>);
+impl_derived_conversions!(DigitalInformation<D: DigitalInformationUnit>, DigitalInformation: One, D);
